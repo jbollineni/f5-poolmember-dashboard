@@ -1,0 +1,105 @@
+{% set tablewidth = '1200' %}
+
+<svg width="1400" height="{{ (dashboard_dict['members'] | length * 30) + 90 }}" viewBox="0 0 1400 {{ (dashboard_dict['members'] | length * 30) +90 }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<style>
+    .green {
+      fill: green;
+      font: bold 15px sans-serif;
+      font-weight:bold;
+    }
+    .blue {
+      font: bold 30px sans-serif;
+    }
+    .red {
+      fill: red;
+      font: bold 15px sans-serif;
+      font-weight:bold ;
+    }
+    .primary {
+      font: bold 15px sans-serif;
+    }
+</style>
+
+<g id="table">
+<!-- horizontal / rows -->
+
+<!-- Header -->
+<rect transform="translate(0 0)" width="{{tablewidth}}" height="30" fill="#F4FAC4"></rect>
+<rect transform="translate(0 0)" width="{{tablewidth}}" height="1" fill="#196B03"></rect>
+
+<rect transform="translate(0 30)" width="{{tablewidth}}" height="30" fill="#ffffff"></rect>
+<rect transform="translate(0 30)" width="{{tablewidth}}" height="1" fill="#196B03"></rect>
+
+<!-- VIP -->
+<rect transform="translate(0 60)" width="{{tablewidth}}" height="30" fill="#ffffff"></rect>
+<rect transform="translate(0 60)" width="{{tablewidth}}" height="1" fill="#196B03"></rect>
+
+<!-- Pool Row -->
+<rect transform="translate(0 90)" width="{{tablewidth}}" height="30" fill="#f5f5f5"></rect>
+<rect transform="translate(0 90)" width="{{tablewidth}}" height="1" fill="#196B03"></rect>
+
+<!-- Members -->
+{% for key, value in dashboard_dict['members'].items() %}
+<rect transform="translate(0 {{ ((loop.index -1) * 30) + 120}} )" width="{{tablewidth}}" height="30" fill="#ffffff"></rect>
+<rect transform="translate(0 {{ ((loop.index -1) * 30) + 120}} )" width="{{tablewidth}}" height="1" fill="#51C6F9"></rect>
+{% endfor %}
+
+<!-- bottom line -->
+<rect transform="translate(0 {{ (dashboard_dict['members'] | length * 30) + 89 }})" width="{{tablewidth}}" height="1" fill="#196B03"></rect>
+
+
+<!-- vertical / columns -->
+<!-- first line -->
+<rect transform="translate(0 0)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+<!-- Health status -->
+<rect transform="translate(400 0)" width="1" height="30" fill="#196B03"></rect>
+<rect transform="translate(400 30)" width="1" height="30" fill="#ffffff"></rect>
+<rect transform="translate(400 90)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+<!-- status change -->
+<rect transform="translate(530 0)" width="1" height="30" fill="#196B03"></rect>
+<rect transform="translate(530 30)" width="1" height="30" fill="white"></rect>
+<rect transform="translate(530 90)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+<!-- Admin state -->
+<rect transform="translate(750 0)" width="1" height="30" fill="#196B03"></rect>
+<rect transform="translate(750 30)" width="1" height="30" fill="white"></rect>
+<rect transform="translate(750 90)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+<!-- State change-->
+<rect transform="translate(880 0)" width="1" height="30" fill="#196B03"></rect>
+<rect transform="translate(880 30)" width="1" height="30" fill="white"></rect>
+<rect transform="translate(880 90)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+<!-- Site-->
+<rect transform="translate(1080 0)" width="1" height="30" fill="#196B03"></rect>
+<rect transform="translate(1080 30)" width="1" height="30" fill="white"></rect>
+<rect transform="translate(1080 90)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+<!-- last line -->
+<rect transform="translate(1200 0)" width="1" height="{{ (dashboard_dict['members'] | length * 30) + 89 }}" fill="#196B03"></rect>
+
+</g>
+
+<g>
+<text transform="translate(15 20)"><tspan x="0" y="0" style="font-weight:bold;">Object</tspan></text>
+<text transform="translate(415 20)"><tspan x="0" y="0" style="font-weight:bold;">Health Status</tspan></text>
+<text transform="translate(550 20)"><tspan x="0" y="0" style="font-weight:bold;">Status Change</tspan></text>
+<text transform="translate(770 20)"><tspan x="0" y="0" style="font-weight:bold;">Admin State</tspan></text>
+<text transform="translate(900 20)"><tspan x="0" y="0" style="font-weight:bold;">State Change</tspan></text>
+<text transform="translate(1100 20)"><tspan x="0" y="0" style="font-weight:bold;"></tspan></text>
+</g>
+
+{% for key, value in dashboard_dict['members'].items() %}
+  <g>
+  <text transform="translate(15 {{ ((loop.index -1) * 30) + 110}})"><tspan x="0" y="0">{{key}}</tspan></text>
+  <text transform="translate(415 {{ ((loop.index -1) * 30) + 110}})" {% if value['status'] == "Offline" %} class = "red" {% elif value['status'] == "Available" %} class = "green"  {% endif %} ><tspan x="0" y="0">{{value['status']}}</tspan></text>
+  <text transform="translate(550 {{ ((loop.index -1) * 30) + 110}})"><tspan x="0" y="0">{{value['monitortimestamp']}}</tspan></text>
+  <text transform="translate(770 {{ ((loop.index -1) * 30) + 110}})"><tspan x="0" y="0" style="font-weight:bold;">{{value['state']}}</tspan></text>
+  <text transform="translate(890 {{ ((loop.index -1) * 30) + 110}})"><tspan x="0" y="0">{{value['admintimestamp']}}</tspan></text>
+  <text transform="translate(1100 {{ ((loop.index -1) * 30) + 110}})"><tspan x="0" y="0">{{value['site']}}</tspan></text>
+  </g>
+{% endfor %}
+
+<g>
+<text transform="translate(15 50)" class="primary"><tspan x="0" y="0">{{ dashboard_dict['parent_object_type']}}: {{ dashboard_dict['parent_object_name']}} </tspan></text>
+<text transform="translate(15 80)" class="primary"><tspan x="0" y="0">Pool: {{ dashboard_dict['pool']}} </tspan></text>
+</g>
+
+</svg>
