@@ -30,3 +30,6 @@ The app uses a `WIP` to lookup `db2` or `VIP` to lookup `db3` and get the pool n
 
 ------
 
+## How-To
+
+See the [https://blog.neni.io/blog/display-f5-data-from-redis/#get-data-over-an-api](https://blog.neni.io/blog/display-f5-data-from-redis/#get-data-over-an-api)
